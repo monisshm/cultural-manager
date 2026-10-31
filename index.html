@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Manage events, schedules, registrations, and announcements for your college cultural fest.">
+  <title>Campus Culture | Fest Management</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main id="login-screen" class="login-layout">
+    <section class="login-intro">
+      <a class="brand brand-light" href="#" aria-label="Campus Culture home">
+        <span class="brand-mark" aria-hidden="true">CC</span>
+        <span>Campus Culture</span>
+      </a>
+      <div class="intro-copy">
+        <p class="eyebrow">YOUR CAMPUS. YOUR CULTURE.</p>
+        <h1>Make room for<br>something memorable.</h1>
+        <p>One place to bring your college festival to life, from the first sign-up to the final result.</p>
+      </div>
+      <p class="intro-footer">A shared space for organizers, participants, and volunteers.</p>
+    </section>
+    <section class="login-panel">
+      <form id="login-form" class="auth-card">
+        <p class="eyebrow">WELCOME BACK</p>
+        <h2>Sign in to your fest</h2>
+        <p class="muted">Use your campus account to continue.</p>
+        <label for="login-username">Username</label>
+        <input id="login-username" name="username" autocomplete="username" required>
+        <label for="login-password">Password</label>
+        <input id="login-password" name="password" type="password" autocomplete="current-password" required>
+        <button class="button button-primary button-full" type="submit">Sign in</button>
+        <p id="login-message" class="form-message" role="status"></p>
+        <p class="auth-switch">New to the fest? <button id="show-signup" class="text-button" type="button">Create an account</button></p>
+      </form>
+      <form id="signup-form" class="auth-card hidden">
+        <p class="eyebrow">JOIN THE FEST</p>
+        <h2>Create your account</h2>
+        <p class="muted">Sign up as an organizer, participant, or volunteer.</p>
+        <label for="signup-name">Full name</label>
+        <input id="signup-name" name="name" autocomplete="name" required maxlength="80">
+        <label for="signup-username">Username</label>
+        <input id="signup-username" name="username" autocomplete="username" required minlength="3" maxlength="30">
+        <label for="signup-password">Password</label>
+        <input id="signup-password" name="password" type="password" autocomplete="new-password" required minlength="8">
+        <label for="signup-role">I am joining as</label>
+        <select id="signup-role" name="role" required>
+          <option value="participant">Participant</option>
+          <option value="organizer">Organizer</option>
+          <option value="volunteer">Volunteer</option>
+        </select>
+        <button class="button button-primary button-full" type="submit">Create account</button>
+        <p id="signup-message" class="form-message" role="status"></p>
+        <p class="auth-switch">Already have an account? <button id="show-login" class="text-button" type="button">Sign in</button></p>
+      </form>
+    </section>
+  </main>
+
+  <div id="app-shell" class="app-shell hidden">
+    <aside class="sidebar">
+      <a class="brand" href="#" aria-label="Campus Culture dashboard">
+        <span class="brand-mark" aria-hidden="true">CC</span>
+        <span>Campus Culture</span>
+      </a>
+      <div class="fest-label">
+        <span class="eyebrow">CAMPUS FESTIVAL</span>
+        <strong>Culture Week</strong>
+        <span class="status-dot">Now planning</span>
+      </div>
+      <nav class="main-nav" aria-label="Main navigation">
+        <button class="nav-link active" data-view="dashboard" type="button"><span class="nav-icon" aria-hidden="true">01</span>Overview</button>
+        <button class="nav-link" data-view="events" type="button"><span class="nav-icon" aria-hidden="true">02</span>Events</button>
+        <button class="nav-link" data-view="schedule" type="button"><span class="nav-icon" aria-hidden="true">03</span>Schedule</button>
+        <button class="nav-link" data-view="announcements" type="button"><span class="nav-icon" aria-hidden="true">04</span>Updates &amp; results</button>
+        <button class="nav-link" data-view="reports" type="button" data-roles="admin,organizer"><span class="nav-icon" aria-hidden="true">05</span>Reports</button>
+      </nav>
+      <div class="sidebar-bottom">
+        <p class="sidebar-note">Every great fest starts with a plan.</p>
+        <button id="logout-button" class="button button-outline button-full" type="button">Sign out</button>
+      </div>
+    </aside>
+
+    <div class="workspace">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">CULTURE WEEK / 2026</p>
+          <h1 id="page-title">Overview</h1>
+        </div>
+        <div class="profile">
+          <span id="profile-avatar" class="avatar" aria-hidden="true">U</span>
+          <span class="profile-copy"><strong id="profile-name">User</strong><span id="profile-role">Role</span></span>
+        </div>
+      </header>
+
+      <main class="page-content">
+        <section id="view-dashboard" class="view-section">
+          <div class="welcome-banner">
+            <div>
+              <p class="eyebrow">THE FEST STARTS HERE</p>
+              <h2 id="welcome-heading">Welcome to Culture Week</h2>
+              <p id="welcome-copy">Find your next moment, meet your people, and be part of campus culture.</p>
+            </div>
+            <button class="button button-light" type="button" data-go="events">Explore events</button>
+          </div>
+          <div class="stat-grid" id="dashboard-stats"></div>
+          <div class="section-heading">
+            <div><p class="eyebrow">WHAT'S HAPPENING</p><h2>Upcoming events</h2></div>
+            <button class="text-button" type="button" data-go="events">View all events</button>
+          </div>
+          <div id="dashboard-events" class="event-grid"></div>
+          <div class="section-heading updates-heading">
+            <div><p class="eyebrow">FROM THE ORGANIZERS</p><h2>Latest updates</h2></div>
+            <button class="text-button" type="button" data-go="announcements">All updates</button>
+          </div>
+          <div id="dashboard-updates" class="updates-list"></div>
+        </section>
+
+        <section id="view-events" class="view-section hidden">
+          <div class="section-heading page-section-heading">
+            <div><p class="eyebrow">DISCOVER AND PARTICIPATE</p><h2>Fest events</h2><p class="muted">Browse the program and find an event to join.</p></div>
+            <button id="new-event-button" class="button button-primary hidden" type="button">Create event</button>
+          </div>
+          <form id="event-form" class="form-card hidden">
+            <div class="form-card-heading"><div><p class="eyebrow">EVENT DETAILS</p><h3 id="event-form-title">Create an event</h3></div><button id="cancel-event-edit" class="text-button" type="button">Cancel</button></div>
+            <input id="event-id" type="hidden">
+            <div class="form-grid">
+              <div><label for="event-name">Event name</label><input id="event-name" required maxlength="100"></div>
+              <div><label for="event-category">Category</label><input id="event-category" required maxlength="50" placeholder="Music, Dance, Theatre..."></div>
+              <div><label for="event-date">Date</label><input id="event-date" type="date" required></div>
+              <div><label for="event-venue">Venue</label><input id="event-venue" required maxlength="100"></div>
+              <div><label for="event-start">Start time</label><input id="event-start" type="time" required></div>
+              <div><label for="event-end">End time</label><input id="event-end" type="time" required></div>
+              <div><label for="event-capacity">Registration limit</label><input id="event-capacity" type="number" min="1" max="10000" required></div>
+              <div class="form-grid-wide"><label for="event-description">Description</label><textarea id="event-description" rows="3" maxlength="1000" required></textarea></div>
+            </div>
+            <p id="event-form-message" class="form-message" role="status"></p>
+            <div class="form-actions"><button class="button button-primary" type="submit">Save event</button></div>
+          </form>
+          <div id="events-list" class="event-grid"></div>
+        </section>
+
+        <section id="view-schedule" class="view-section hidden">
+          <div class="section-heading page-section-heading"><div><p class="eyebrow">PLAN YOUR FEST</p><h2>Event schedule</h2><p class="muted">Dates, venues, and time slots in one place.</p></div></div>
+          <div class="table-wrap"><table><thead><tr><th>Event</th><th>Date</th><th>Time</th><th>Venue</th><th>Category</th></tr></thead><tbody id="schedule-body"></tbody></table></div>
+        </section>
+
+        <section id="view-announcements" class="view-section hidden">
+          <div class="section-heading page-section-heading"><div><p class="eyebrow">STAY IN THE LOOP</p><h2>Updates &amp; results</h2><p class="muted">Announcements, competition results, and fest news.</p></div></div>
+          <form id="update-form" class="form-card hidden">
+            <div class="form-card-heading"><div><p class="eyebrow">SHARE AN UPDATE</p><h3>Post an announcement or result</h3></div></div>
+            <div class="form-grid">
+              <div><label for="update-kind">Type</label><select id="update-kind"><option value="announcement">Announcement</option><option value="result">Competition result</option></select></div>
+              <div><label for="update-event">Related event (optional)</label><select id="update-event"><option value="">General update</option></select></div>
+              <div class="form-grid-wide"><label for="update-title">Title</label><input id="update-title" maxlength="120" required></div>
+              <div class="form-grid-wide"><label for="update-body">Details</label><textarea id="update-body" rows="3" maxlength="2000" required></textarea></div>
+            </div>
+            <p id="update-message" class="form-message" role="status"></p>
+            <div class="form-actions"><button class="button button-primary" type="submit">Publish update</button></div>
+          </form>
+          <div id="updates-list" class="updates-list"></div>
+        </section>
+
+        <section id="view-reports" class="view-section hidden">
+          <div class="section-heading page-section-heading"><div><p class="eyebrow">FEST SNAPSHOT</p><h2>Registration reports</h2><p class="muted">Current registrations and remaining capacity for each event.</p></div></div>
+          <div class="report-summary" id="report-summary"></div>
+          <div class="table-wrap"><table><thead><tr><th>Event</th><th>Date</th><th>Venue</th><th>Registrations</th><th>Capacity</th><th>Fill rate</th></tr></thead><tbody id="reports-body"></tbody></table></div>
+        </section>
+      </main>
+      <footer class="page-footer">Campus Culture <span>·</span> Culture Week 2026</footer>
+    </div>
+  </div>
+  <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+  <script src="script.js" defer></script>
+</body>
+</html>
